@@ -214,7 +214,108 @@ exm-ontology/
 
 ---
 
-## 8. 참고 자료
+## 8. 근거 중심 지식 그래프 핵심 개념
+
+> **🔥 한 줄 요약**: 근거 중심 지식 그래프는 *"논문 문장에 기반해 생물학적 관계를 연결한 출처 추적 가능한 관계 지도"*다.
+
+### 📰 1️⃣ Document
+
+= **논문 하나**
+
+예: *"Aspirin은 대장암 위험을 줄인다."* — 이 문장이 들어있는 논문 전체가 Document.
+
+### 📌 2️⃣ EvidenceChunk
+
+= 논문 안의 **"근거 문장"** 조각
+
+논문 전체가 아니라, 예를 들어:
+
+> *"Aspirin inhibits COX-1 signaling in colorectal cancer models."*
+
+이 한 문장만 따로 저장.
+
+**왜냐면?**  
+👉 주장은 문장에서 나오기 때문.
+
+### 🧬 3️⃣ 생물의학 개체
+
+문장에서 등장하는 대상들:
+
+| 타입 | 설명 |
+|------|------|
+| **Drug** | 약물 |
+| **Gene** | 유전자 |
+| **Protein** | 단백질 |
+| **Disease** | 질병 |
+| **Pathway** | 생물학적 과정 |
+
+예 문장에서:
+
+| 단어 | 타입 |
+|------|------|
+| Aspirin | Drug |
+| COX-1 | Gene/Protein |
+| colorectal cancer | Disease |
+
+### 🔗 4️⃣ 관계들
+
+이제 연결을 만든다.
+
+| 관계 | 의미 |
+|------|------|
+| **MENTIONS** | 문장이 어떤 개체를 언급했다는 뜻. `EvidenceChunk → MENTIONS → Aspirin` |
+| **ASSOCIATED_WITH** | 관련이 있다 (상관관계 수준). `Aspirin → ASSOCIATED_WITH → colorectal cancer` |
+| **INHIBITS** | 억제한다 (기전 관계). `Aspirin → INHIBITS → COX-1` |
+| **ACTIVATES** | 활성화한다 |
+
+### 📊 이걸 그림처럼 보면
+
+```
+[Document]
+    ↓ contains
+[EvidenceChunk]
+    ↓ mentions
+[Aspirin] ── INHIBITS ──> [COX-1]
+       └── ASSOCIATED_WITH ──> [Colorectal cancer]
+```
+
+### 🚨 왜 "근거 중심"이 중요하냐?
+
+**일반 그래프**는:
+
+```
+Aspirin ── INHIBITS ── COX-1
+끝.
+```
+
+**근거 중심 그래프**는:
+
+```
+Aspirin ── INHIBITS ── COX-1
+      ↑
+EvidenceChunk (논문 문장)
+      ↑
+Document (논문)
+```
+
+👉 그래서 **"이 관계의 출처가 뭐냐?"**를 항상 추적 가능.
+
+### 🎯 중요한 이유?
+
+가설 생성할 때:
+
+- 그냥 연결 많다고 좋은 게 아님.
+- **"몇 편 논문이 말했는가?"**
+- **"실험 기반인가?"**
+- **"리뷰인가?"**
+
+이걸 판단해야 함.
+
+즉, **연결 + 근거 + 출처 = 신뢰 가능한 가설 생성**
+
+---
+
+## 9. 참고 자료
 
 - W3C OWL: https://www.w3.org/OWL/
 - RDF/Turtle: https://www.w3.org/TR/turtle/
