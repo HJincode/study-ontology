@@ -139,6 +139,7 @@ Document (논문)
 
 - **포맷**: [docs/input-format.md](docs/input-format.md) §3.1 (type, from_entity_type/name, to_entity_type/name, pmid, evidence_chunk_id).
 - **없을 때**: `--relations`를 생략하면 문서·청크·MENTIONS만 로드되고, 개체 간 관계(ASSOCIATED_WITH 등)는 0건이다.
+- **메타데이터 MeSH 제외**: `extract_relations.py`와 `build_relations_jsonl.py`는 관계의 끝점으로 **Animals, Humans, Male, Female** 등 메타데이터/체크태그성 MeSH를 사용하지 않는다 (blocklist 적용). 이렇게 하면 "Biomarkers, Tumor is associated with Animals" 같은 허위 가설이 생성되지 않는다. relations 재생성·Neo4j 재로드 순서는 [docs/run-after-mesh-blocklist.md](docs/run-after-mesh-blocklist.md) 참고.
 
 ### 5. 예제 쿼리 작성·실행
 
